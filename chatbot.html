@@ -1,0 +1,18 @@
+document.getElementById("sendBtn").addEventListener("click", async function() {
+    let input = document.getElementById("userInput").value;
+    let chatArea = document.getElementById("chatArea");
+
+    chatArea.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
+
+    // Call backend
+    let response = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: input })
+    });
+
+    let data = await response.json();
+    chatArea.innerHTML += `<p><strong>Jarvis:</strong> ${data.response}</p>`;
+
+    document.getElementById("userInput").value = "";
+});
